@@ -6,7 +6,6 @@
 - 提供更高效的按鍵掃描方法：
     + 未按下按鍵時，執行速度為傳統方式的400%。
     + 在按下按鍵時，執行速度為傳統方式的200%。
-- 輕量且易於理解。
 - 每個函數皆有提供精簡的函數別名，方便使用。
 
 ## 使用方式
@@ -19,7 +18,7 @@
 
 2. 預設情況下，這個函式庫使用P2作為鍵盤的接腳。如果你想使用其他接腳，請在`#include`語句之前使用`#define`來定義`KEY_PORT`。
 
-3. 按鍵順序的計算方式：Row * 4 + Column。預設對應到："FEDCBA9876543210"，共16個字元。如果想更改按鍵順序，可以使用`setKeyCodes()`函數。
+3. 按鍵順序的計算方式：Row * 4 + Column。預設對應到："0123456789ABCDEF"，共16個字元。如果想更改按鍵順序，可以使用`setKeyCodes()`函數。
 
 使用的更多細節請參見[範例](/example/)。
 
@@ -33,12 +32,12 @@
 
 - `void setKeyCodes(char *newKeyCodes)`: 用於更改按鍵順序。  
 
-    > 函數別名：`key_setcodes()`
+    > 函數別名：`key_setCodes()`
 
     > 範例：更改按鍵順序
     > ```c
-    > char KeyCodes[] = "0123456789ABCDEF";
-    > setKeyCodes(KeyCodes);
+    > char KeyCodes[] = "FEDCBA0987654321";
+    > key_setCodes(KeyCodes);
     > ```
 
 
@@ -81,10 +80,14 @@
     > uart_putch(ch);
     > ```
 
+- `Byte key_getByte(void)`: 讀取一個Byte（按兩字鍵盤，分別為高低各四個位元）
+- `unsigned int key_getWord`: 讀取一個Word。
+- `unsigned int key_getInt(void)`: 讀取一個Int（兩Bytes）。
+
 ## 作者
 
 - 作者：LSweetSour
-- 最後編輯：2023/11/02
+- 最後編輯：2023/11/18
 - 授權方式：MIT License
 
 ## 其他事項
