@@ -22,7 +22,7 @@
 #endif
 
 // 定義Byte別名
-typedef unsigned char Byte
+typedef unsigned char Byte;
 
 enum KEY_CONSTANT {
   KEY_NULL
