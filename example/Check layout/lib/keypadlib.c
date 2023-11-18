@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 
 /*
-    * keypadlib v1.2 - A 4×4 keypad-scaning library. 
+    * keypadlib v1.1.1 - A 4×4 keypad-scaning library. 
     * 
     * 支援SDCC版本3.0.1，適用於MCU 89S52。
     * 
