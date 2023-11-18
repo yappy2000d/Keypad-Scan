@@ -1,26 +1,18 @@
 // -*- coding: utf-8 -*-
 
 /*
-    * 這是一個簡單的4×4鍵盤掃描函式庫，支援SDCC版本3.0.1，適用於MCU 89S52。
+    * keypadlib v1.2 - A 4×4 keypad-scaning library. 
     * 
-    * 說明：
-    *   這個函式庫的目的是為了簡化4×4鍵盤的使用，並且提供一些基本的功能。
-    *   此函式庫還改善了傳統的掃描方式：
-    *       1. 未按下按鍵時，執行速度是傳統掃描方式的400%。
-    *       2. 按下按鍵時，執行速度是傳統掃描方式的200%。
-    *   註：傳統掃描方式路徑長度為4*4，而這個函式庫在按鈕按下時的路徑長度為4+4，在按鈕未按下時只有4。
-    * 
-    * 使用方式：在你的程式碼中加入`#include "keypadlib.c"`來使用這個函式庫：
-    * 注意事項：
-    *   1. 這個函式庫預設使用P2作為鍵盤的接腳，若要更改，請於#include之前使用#define來定義KEY_PORT。
-    *   2. 預設鍵盤的按鍵順序為"FEDCBA9876543210"（計算方式為：Row * 4 + Column）。若要更改，請使用setKeyCodes()函數。
-    *   3. 此版本可運行在SDCC的3.0.1版本，使用方式可參考實際範例。
+    * 支援SDCC版本3.0.1，適用於MCU 89S52。
     * 
     * 作者(Author): LSweetSour
-    * 最後編輯(Last Updated): 2023/11/02
+    * 最後編輯(Last Updated): 2023/11/18
     * License: MIT License
     * 
 */
+#ifndef _KEYPADLIB_C_
+#define _KEYPADLIB_C_
+
 #include <8051.h>
 #include <stdbool.h>
 
@@ -30,13 +22,18 @@
 #endif
 
 // 定義Byte別名
-#ifndef Byte
-#define Byte unsigned char
-#endif
+typedef unsigned char Byte
 
-#define KEY_NULL 0
+enum KEY_CONSTANT {
+  KEY_NULL
+};
 
 static char _keyCodes[] = "0123456789ABCDEF";
+
+// ASCII轉Byte
+Byte ascii2Byte(char c) {
+  return (c >= 'A')? c-55: c-48;
+}
 
 // 函數別名
 void (*key_setcodes)(char*) = setKeyCodes;
@@ -117,3 +114,29 @@ char waitForSpecificKeyRelease(char c) {
     while (getKeyCode());                   // 等待按鍵放開
     return c;
 }
+
+
+// 輸入兩個數字，回傳一個Byte
+Byte key_getByte(void) {
+  char a = waitForReleasedKey();
+  char b = waitForReleasedKey();
+  
+  a = ascii2Byte(a);
+  b = ascii2Byte(b);
+  
+  return (a << 4) + b;
+}
+
+unsigned int key_getWord(void) {
+  return key_getByte()*256 + key_getByte();
+}
+
+unsigned int key_getInt(void) {
+  unsigned int value = 0;
+  unsigned char key;
+  while( (key=waitForReleasedKey()) < 0x0A) {
+    value = value*10 + key;
+  }
+  return value;
+}
+#endif
