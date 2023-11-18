@@ -1,0 +1,27 @@
+KeyScan Lib - Changelog
+
+----------------------------
+
+(+) A new feature
+(-) A removed feature
+(#) A changed feature
+(*) A bug fix
+(/) Other
+
+----------------------------
+
+v1.1.1 | 18th September 2023
+# 修正函式庫可能引發的遞迴引用問題。
+# 修正Byte類型在連續宣告時，變數類型不一致的問題。
+# 修正使範例程式符合C89標準。
++ 新增檢查鍵盤布局的範例程式。
+
+v1.1 | 13th September 2023
++ ascii2Byte()
++ key_getByte()
++ key_getWord()
++ key_getInt()
+# Rename function `key_get` to `key_scan`
+
+v1.0 | 2nd September 2023
++ Initial Release
