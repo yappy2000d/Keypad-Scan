@@ -22,7 +22,7 @@ void main(void) {
   char a, b;
   Byte summand, addend, sum;
   
-  key_setcodes(KeyCodes);
+  // key_setcodes(KeyCodes);   // Optional
   
   
   while(true) {
