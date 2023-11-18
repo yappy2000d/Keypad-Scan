@@ -36,7 +36,7 @@ Byte ascii2Byte(char c) {
 }
 
 // 函數別名
-void (*key_setcodes)(char*) = setKeyCodes;
+void (*key_setCodes)(char*) = setKeyCodes;
 Byte (*key_get)(void) = getKeyCode;
 char (*key_check)(void) = getPressedKey;
 char (*key_getch)(void) = waitForReleasedKey;
