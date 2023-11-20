@@ -1,12 +1,12 @@
 // -*- coding: utf-8 -*-
 
 /*
-    * keypadlib v1.1.1 - A 4×4 keypad-scaning library. 
+    * keypadlib v1.1.2 - A 4×4 keypad-scaning library. 
     * 
     * 支援SDCC版本3.0.1，適用於MCU 89S52。
     * 
     * 作者(Author): LSweetSour
-    * 最後編輯(Last Updated): 2023/11/18
+    * 最後編輯(Last Updated): 2023/11/20
     * License: MIT License
     * 
 */
@@ -15,6 +15,7 @@
 
 #include <8051.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 // 定義KeyPad接腳
 #ifndef KEY_PORT
@@ -131,11 +132,12 @@ unsigned int key_getWord(void) {
   return key_getByte()*256 + key_getByte();
 }
 
-unsigned int key_getInt(void) {
-  unsigned int value = 0;
-  unsigned char key;
-  while( (key=waitForReleasedKey()) < 0x0A) {
-    value = value*10 + key;
+// 輸入任一個十進位數字，按下任一非數字鍵，回傳一個int（最大為65536）
+int key_getInt(void) {
+  int value = 0;
+  char key;
+  while( isdigit(key=waitForReleasedKey()) ) {
+    value = value*10 + ascii2Byte(key);
   }
   return value;
 }
