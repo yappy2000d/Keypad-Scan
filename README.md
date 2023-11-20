@@ -82,7 +82,7 @@
 
 - `Byte key_getByte(void)`: 讀取一個Byte（按兩字鍵盤，分別為高低各四個位元）
 - `unsigned int key_getWord`: 讀取一個Word。
-- `unsigned int key_getInt(void)`: 讀取一個Int（兩Bytes）。
+- `unsigned int key_getInt(void)`: 輸入任一個十進位數字，按下任一非數字鍵，回傳一個int（int的最大範圍為65536）。
 
 ## 作者
 
