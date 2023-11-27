@@ -37,11 +37,11 @@ Byte ascii2Byte(char c) {
 }
 
 // 函數別名
-void (*key_setcodes)(char*) = setKeyCodes;
-Byte (*key_get)(void) = getKeyCode;
+void (*key_setKeys)(char*) = setKeyCodes;
+Byte (*key_scan)(void) = getKeyCode;
 char (*key_check)(void) = getPressedKey;
-char (*key_getch)(void) = waitForReleasedKey;
-char (*key_until)(char) = waitForSpecificKeyRelease;
+char (*key_getChar)(void) = waitForReleasedKey;
+char (*key_waitFor)(char) = waitForSpecificKeyRelease;
 
 // 更改對應按鍵（用於按鍵順序與預設不同時）
 void setKeyCodes(char *newKeyCodes) {
