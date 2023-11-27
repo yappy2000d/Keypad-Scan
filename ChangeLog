@@ -13,6 +13,9 @@ KeyScan Lib - Changelog
 v1.1.2 | 20th September 2023
 # 修正key_getInt()永遠得到0的問題
 # 修正使範例程式(Check layout)符合C89標準。
+# Rename function `key_getch` to `key_getChar`
+# Rename function `key_until` to `key_waitFor`
+# Rename function `key_setcodes` to `key_setKeys`
 
 v1.1.1 | 18th September 2023
 # 修正函式庫可能引發的遞迴引用問題。
