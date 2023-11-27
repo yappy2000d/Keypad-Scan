@@ -8,12 +8,12 @@
 #define BUTTON P3_2
 #define BTN_UP 1
 
-const char KeyCodes[] = "0123456789ABCDEF";	// Optional  
+//const char KeyCodes[] = "0123456789ABCDEF";	// Optional  
 
 // concat high digits and low digits to a byte
 Byte concatByte(char a, char b) {
-  a = ascii2Byte(a);
-  b = ascii2Byte(b);
+  a = _ascii2Byte(a);
+  b = _ascii2Byte(b);
   return (a << 4) + b;
 }
 
@@ -22,12 +22,12 @@ void main(void) {
   char a, b;
   Byte summand, addend, sum;
   
-  // key_setcodes(KeyCodes);   // Optional
+  //key_setKeys(KeyCodes);   // Optional
   
   
   while(true) {
-    a = key_getch();
-    b = key_getch();
+    a = key_getChar();
+    b = key_getChar();
     
     summand = concatByte(a, b);
     LED_PORT = ~summand;
@@ -35,8 +35,8 @@ void main(void) {
     // wait until button is pressed
     while(BUTTON == BTN_UP);
     
-    a = key_getch();
-    b = key_getch();
+    a = key_getChar();
+    b = key_getChar();
     
     addend = concatByte(a, b);
     LED_PORT = ~addend;
