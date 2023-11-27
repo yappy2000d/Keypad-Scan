@@ -6,7 +6,7 @@
     * 支援SDCC版本3.0.1，適用於MCU 89S52。
     * 
     * 作者(Author): LSweetSour
-    * 最後編輯(Last Updated): 2023/11/21
+    * 最後編輯(Last Updated): 2023/11/27
     * License: MIT License
     * 
 */
@@ -37,7 +37,7 @@ Byte _ascii2Byte(char c) {
 }
 
 // 更改對應按鍵（用於按鍵順序與預設不同時）
-void key_setCode(char *newKeyCodes) {
+void key_setKeys(char *newKeyCodes) {
     int i = 0;
     for (i = 0; i < 15; i++) {
         _keyCodes[i] = newKeyCodes[i];
@@ -45,7 +45,7 @@ void key_setCode(char *newKeyCodes) {
 }
 
 // 讀取按鍵，回傳1~16，分別對應到16個按鍵（若無任何按鍵按下則回傳KEY_NULL）
-Byte key_get(void) {
+Byte key_scan(void) {
     Byte key = KEY_NULL;
 
     // 檢查Rows，並決定Byte的前兩個bits
@@ -90,7 +90,7 @@ Byte key_get(void) {
 
 // 回傳當前壓著的按鍵（若無任何按鍵按下則回傳KEY_NULL）
 char key_check(void) {
-    Byte result = key_get();
+    Byte result = key_scan();
     return (result == KEY_NULL) ? KEY_NULL : _keyCodes[result - 1];
 }
 
@@ -99,7 +99,7 @@ char key_getChar(void) {
     char result;
     unsigned int i = 65536;
     while (!(result = key_check()));    // 等待按鍵按下並讀取
-    while (key_get());                  // 等待按鍵放開
+    while (key_scan());                  // 等待按鍵放開
     while(i--);
     return result;
 }
@@ -107,7 +107,7 @@ char key_getChar(void) {
 // 持續等待直到該鍵被釋放
 char key_waitFor(char c) {
     while (c != key_check());           // 等待按鍵按下
-    while (key_get());                  // 等待按鍵放開
+    while (key_scan());                  // 等待按鍵放開
     return c;
 }
 
