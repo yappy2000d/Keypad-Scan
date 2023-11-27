@@ -97,7 +97,7 @@ char key_check(void) {
 // 讀取按鍵，並等待直到按鍵放開後，再回傳
 char key_getChar(void) {
     char result;
-    unsigned int i = 65536;
+    unsigned int i = 65535;
     while (!(result = key_check()));    // 等待按鍵按下並讀取
     while (key_scan());                  // 等待按鍵放開
     while(i--);
