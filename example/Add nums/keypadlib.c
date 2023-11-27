@@ -6,7 +6,7 @@
     * 支援SDCC版本3.0.1，適用於MCU 89S52。
     * 
     * 作者(Author): LSweetSour
-    * 最後編輯(Last Updated): 2023/11/20
+    * 最後編輯(Last Updated): 2023/11/27
     * License: MIT License
     * 
 */
@@ -32,19 +32,12 @@ enum KEY_CONSTANT {
 static char _keyCodes[] = "0123456789ABCDEF";
 
 // ASCII轉Byte
-Byte ascii2Byte(char c) {
+Byte _ascii2Byte(char c) {
   return (c >= 'A')? c-55: c-48;
 }
 
-// 函數別名
-void (*key_setcodes)(char*) = setKeyCodes;
-Byte (*key_get)(void) = getKeyCode;
-char (*key_check)(void) = getPressedKey;
-char (*key_getch)(void) = waitForReleasedKey;
-char (*key_until)(char) = waitForSpecificKeyRelease;
-
 // 更改對應按鍵（用於按鍵順序與預設不同時）
-void setKeyCodes(char *newKeyCodes) {
+void key_setKeys(char *newKeyCodes) {
     int i = 0;
     for (i = 0; i < 15; i++) {
         _keyCodes[i] = newKeyCodes[i];
@@ -52,7 +45,7 @@ void setKeyCodes(char *newKeyCodes) {
 }
 
 // 讀取按鍵，回傳1~16，分別對應到16個按鍵（若無任何按鍵按下則回傳KEY_NULL）
-Byte getKeyCode(void) {
+Byte key_scan(void) {
     Byte key = KEY_NULL;
 
     // 檢查Rows，並決定Byte的前兩個bits
@@ -96,34 +89,36 @@ Byte getKeyCode(void) {
 }
 
 // 回傳當前壓著的按鍵（若無任何按鍵按下則回傳KEY_NULL）
-char getPressedKey(void) {
-    Byte result = getKeyCode();
+char key_check(void) {
+    Byte result = key_scan();
     return (result == KEY_NULL) ? KEY_NULL : _keyCodes[result - 1];
 }
 
 // 讀取按鍵，並等待直到按鍵放開後，再回傳
-char waitForReleasedKey(void) {
+char key_getChar(void) {
     char result;
-    while (!(result = getPressedKey()));    // 等待按鍵按下並讀取
-    while (getKeyCode());                   // 等待按鍵放開
+    unsigned int i = 65536;
+    while (!(result = key_check()));    // 等待按鍵按下並讀取
+    while (key_scan());                  // 等待按鍵放開
+    while(i--);
     return result;
 }
 
 // 持續等待直到該鍵被釋放
-char waitForSpecificKeyRelease(char c) {
-    while (c != getPressedKey());           // 等待按鍵按下
-    while (getKeyCode());                   // 等待按鍵放開
+char key_waitFor(char c) {
+    while (c != key_check());           // 等待按鍵按下
+    while (key_scan());                  // 等待按鍵放開
     return c;
 }
 
 
 // 輸入兩個數字，回傳一個Byte
 Byte key_getByte(void) {
-  char a = waitForReleasedKey();
-  char b = waitForReleasedKey();
+  char a = key_getChar();
+  char b = key_getChar();
   
-  a = ascii2Byte(a);
-  b = ascii2Byte(b);
+  a = _ascii2Byte(a);
+  b = _ascii2Byte(b);
   
   return (a << 4) + b;
 }
@@ -132,12 +127,12 @@ unsigned int key_getWord(void) {
   return key_getByte()*256 + key_getByte();
 }
 
-// 輸入任一個十進位數字，按下任一非數字鍵，回傳一個int（最大為65536）
+// 輸入介於0~6553的十進位數字，當按下任一非數字鍵時，結束輸入並回傳
 int key_getInt(void) {
   int value = 0;
   char key;
-  while( isdigit(key=waitForReleasedKey()) ) {
-    value = value*10 + ascii2Byte(key);
+  while( isdigit(key=key_getChar()) ) {
+    value = value*10 + _ascii2Byte(key);
   }
   return value;
 }
