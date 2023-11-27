@@ -6,7 +6,7 @@
     * 支援SDCC版本3.0.1，適用於MCU 89S52。
     * 
     * 作者(Author): LSweetSour
-    * 最後編輯(Last Updated): 2023/11/20
+    * 最後編輯(Last Updated): 2023/11/27
     * License: MIT License
     * 
 */
