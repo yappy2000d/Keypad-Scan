@@ -30,9 +30,7 @@
 
 以下是這個函式庫提供的主要函數：
 
-- `void setKeyCodes(char *newKeyCodes)`: 用於更改按鍵順序。  
-
-    > 函數別名：`key_setKeys()`
+- `void key_setKeys(char *newKeyCodes)`: 用於更改按鍵順序。  
 
     > 範例：更改按鍵順序
     > ```c
@@ -41,8 +39,7 @@
     > ```
 
 
-- `Byte getKeyCode(void)`: 讀取按鍵，回傳1~16，分別對應到16個按鍵，若無按鍵按下則回傳`KEY_NULL`。
-    > 等效函數：`key_scan()`
+- `Byte key_scan(void)`: 讀取按鍵，回傳1~16，分別對應到16個按鍵，若無按鍵按下則回傳`KEY_NULL`。
 
     > 範例：持續等待，直到任一個按鍵被按下
     > ```c
@@ -50,9 +47,7 @@
     > /* continue */
     > ```
 
-- `char getPressedKey(void)`: 回傳當前壓著的按鍵，若無按鍵按下則回傳`KEY_NULL`。
-
-    > 等效函數：`key_check()`
+- `char key_check(void)`: 回傳當前壓著的按鍵，若無按鍵按下則回傳`KEY_NULL`。
     
     > 範例：檢查A鍵是否被按下。
     > ```c
@@ -61,18 +56,14 @@
     > }
     > ```
 
-- `char waitForReleasedKey(void)`: 讀取按鍵，並等待直到按鍵放開後，再回傳。
-
-    > 等效函數：`key_getChar()`
+- `char key_getChar(void)`: 讀取按鍵，並等待直到按鍵放開後，再回傳。
 
     > 範例：輸入一個字元並將其存入變數「key」中。
     > ```c
     > char ch = key_getChar();
     > ```
 
-- `char waitForSpecificKeyRelease(char c)`: 持續等待直到特定鍵被釋放。
-
-    > 等效函數：`key_waitFor()`
+- `char key_waitFor(char c)`: 持續等待直到特定鍵被釋放。
 
     > 範例：等待直到「=」被按下，之後將其發送出去。
     > ```c
